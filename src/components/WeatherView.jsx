@@ -21,37 +21,57 @@ function WeatherView() {
     };
 
 
-    const search = async (city) => {
-        if (city === "") {
-            alert("Enter City Name")
+    const search = async (input) => {
+        const text = typeof input === "string" ? input.trim() : "";
+        const coords = typeof input === "object" && input ? input : null;
+
+        if (!text && !coords) {
+            alert("Enter City Name");
             return;
         }
 
         try {
-            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}
-                &units=metric&appid=${import.meta.env.VITE_API_KEY}`;
+            let lat, lon, displayName;
 
-            // console.log("fetching url...", url);
+            // 1) Αν ήρθαν coords από autocomplete, τα χρησιμοποιούμε
+            if (coords?.lat && coords?.lon) {
+                lat = coords.lat;
+                lon = coords.lon;
+                displayName = coords.name;
+            } else {
+                // 2) Αλλιώς κάνουμε geocoding (δουλεύει και με ελληνικά input)
+                const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(
+                    text
+                )}&limit=1&appid=${import.meta.env.VITE_API_KEY}`;
 
-            const response = await fetch(url);
-            var data = {};
-            if (response.ok) {
-                data = await response.json();
+                const geoRes = await fetch(geoUrl);
+                if (!geoRes.ok) return;
+
+                const geoData = await geoRes.json();
+                if (!Array.isArray(geoData) || geoData.length === 0) {
+                    alert("City not found");
+                    return;
+                }
+
+                lat = geoData[0].lat;
+                lon = geoData[0].lon;
+                displayName = geoData[0].name;
             }
 
-            // console.log("response", response, data);
+            // 3) Current weather by lat/lon (ακριβές, ανεξάρτητο γλώσσας)
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${import.meta.env.VITE_API_KEY}`;
 
+            const response = await fetch(url);
             if (!response.ok) {
                 console.log(response);
                 return;
             }
 
-            // console.log("Weather Data", data);
+            const data = await response.json();
 
             const iconCode = data.weather[0].icon;
             const isDay = iconCode.endsWith("d");
             const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-
 
             const appElement = document.querySelector(".app");
             if (appElement) {
@@ -63,14 +83,15 @@ function WeatherView() {
                 humidity: data.main.humidity,
                 windSpeed: data.wind.speed,
                 temperature: Math.floor(data.main.temp),
-                location: data.name,
-                icon: iconUrl
-            })
+                location: displayName || data.name,
+                icon: iconUrl,
+            });
         } catch (error) {
             setWeatherData(false);
             console.log("Error in fetching weather data", error);
         }
     };
+
 
     useEffect(() => {
         search("Athens");
@@ -104,7 +125,7 @@ function WeatherView() {
                         <FavoriteView favorites={favorites} onRemove={favorite} onSelect={search} />
                     </div>
                 )}
-                
+
                 <div className="favorites-container desktop-only">
                     <FavoriteView favorites={favorites} onRemove={favorite} onSelect={search} />
                 </div>

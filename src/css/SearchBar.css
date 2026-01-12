@@ -17,3 +17,29 @@
     font-size: 25px;
     cursor: pointer;
 }
+
+.search-input-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.search-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 50;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.search-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.search-item:hover {
+    background: rgba(0, 0, 0, 0.06);
+}

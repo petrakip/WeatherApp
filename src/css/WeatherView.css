@@ -128,10 +128,12 @@
 /* ---------------- DESKTOP ---------------- */
 @media (min-width: 1025px) {
     .weather-view {
-        padding: 40px;
+        max-height: calc(100vh - 80px);
+        overflow: hidden;
     }
 
     .weather-layout {
+        height: 100%;
         flex-direction: row;
         gap: 24px;
         align-items: flex-start;
@@ -149,11 +151,13 @@
 
     .favorites-container {
         width: 320px;
-        margin: 0 25px;
-        align-self: flex-start;
+        margin: 40px;
         position: sticky;
         top: 20px;
+        display: block;
     }
+
+
 
     .weather-property-data {
         justify-content: center;

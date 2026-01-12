@@ -16,14 +16,16 @@ function FavoriteView({ favorites, onRemove, onSelect }) {
     return (
         <div className="favorites-view">
             <h3 className="favorites-title">Favorites</h3>
-            {favorites.map((city) => (
-                <FavoriteTile
-                    key={city}
-                    city={city}
-                    onRemove={onRemove}
-                    onSelect={onSelect}
-                />
-            ))}
+            <div className="favorites-scroll">
+                {favorites.map((city) => (
+                    <FavoriteTile
+                        key={city}
+                        city={city}
+                        onRemove={onRemove}
+                        onSelect={onSelect}
+                    />
+                ))}
+            </div>
         </div>
     );
 }
