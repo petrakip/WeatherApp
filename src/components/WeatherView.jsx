@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar";
 import WeatherPropertyTile from "./WeatherPropertyTile";
 import WeatherTile from "./WeatherTile";
 import "../css/WeatherView.css"
+import FavoriteView from "./FavoriteView";
 
 function WeatherView() {
 
@@ -10,14 +11,15 @@ function WeatherView() {
     const [favorites, setFavorites] = useState([]);
 
     const favorite = (city) => {
-        
+        if (!city) return;
+
         if (favorites.includes(city)) {
             setFavorites(favorites.filter((c) => c !== city));
         } else {
             setFavorites([...favorites, city]);
         }
-        
     };
+
 
     const search = async (city) => {
         if (city === "") {
@@ -85,6 +87,11 @@ function WeatherView() {
                 <WeatherPropertyTile type="humidity" value={weatherData.humidity} />
                 <WeatherPropertyTile type="wind" value={weatherData.windSpeed} />
             </div>
+            {favorites.length > 0 && (
+                <div className="favorites-container">
+                    <FavoriteView favorites={favorites} onRemove={favorite} onSelect={search}/>
+                </div>
+            )}
         </div>
     )
 }

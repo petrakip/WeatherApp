@@ -1,0 +1,15 @@
+.favorite-tile {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid #E49BA6;
+  color: white;
+}
+
+.favorite-city {
+  cursor: pointer;
+}
+
+.favorite-remove {
+  cursor: pointer;
+}

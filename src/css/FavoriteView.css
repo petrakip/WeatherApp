@@ -1,0 +1,21 @@
+.favorites-view {
+  margin-top: 10px;
+  width: 100%;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.favorites-view::-webkit-scrollbar {
+  width: 8px;
+}
+
+.favorites-title {
+    color: white;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.favorites-empty {
+  font-size: 14px;
+  color: #777;
+}
