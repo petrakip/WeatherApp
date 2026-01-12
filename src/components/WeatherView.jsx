@@ -49,7 +49,15 @@ function WeatherView() {
             // console.log("Weather Data", data);
 
             const iconCode = data.weather[0].icon;
+            const isDay = iconCode.endsWith("d");
             const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+
+            const appElement = document.querySelector(".app");
+            if (appElement) {
+                appElement.classList.toggle("day-bg", isDay);
+                appElement.classList.toggle("night-bg", !isDay);
+            }
 
             setWeatherData({
                 humidity: data.main.humidity,
@@ -76,22 +84,32 @@ function WeatherView() {
 
     return (
         <div className="weather-view">
-            {weatherData && (
-                <span className="favorite-icon" onClick={() => favorite(weatherData.location)}>
-                    {isFavorite ? "❤️" : "🤍"}
-                </span>
-            )}
-            <SearchBar searchFunction={search} />
-            <WeatherTile weatherData={weatherData} />
-            <div className="weather-property-data">
-                <WeatherPropertyTile type="humidity" value={weatherData.humidity} />
-                <WeatherPropertyTile type="wind" value={weatherData.windSpeed} />
-            </div>
-            {favorites.length > 0 && (
-                <div className="favorites-container">
-                    <FavoriteView favorites={favorites} onRemove={favorite} onSelect={search}/>
+            <div className="weather-layout">
+                <div className="weather-main">
+                    {weatherData && (
+                        <span className="favorite-icon" onClick={() => favorite(weatherData.location)}>
+                            {isFavorite ? "❤️" : "🤍"}
+                        </span>
+                    )}
+                    <SearchBar searchFunction={search} />
+                    <WeatherTile weatherData={weatherData} />
+                    <div className="weather-property-data">
+                        <WeatherPropertyTile type="humidity" value={weatherData.humidity} />
+                        <WeatherPropertyTile type="wind" value={weatherData.windSpeed} />
+                    </div>
                 </div>
-            )}
+
+                {favorites.length > 0 && (
+                    <div className="favorites-container mobile-only">
+                        <FavoriteView favorites={favorites} onRemove={favorite} onSelect={search} />
+                    </div>
+                )}
+                
+                <div className="favorites-container desktop-only">
+                    <FavoriteView favorites={favorites} onRemove={favorite} onSelect={search} />
+                </div>
+
+            </div>
         </div>
     )
 }

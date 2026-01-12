@@ -1,24 +1,35 @@
 .weather-view {
     place-self: center;
     padding: 50px;
-    background-image: linear-gradient(45deg, #540863, #E49BA6);
+
+    /* GLASS EFFECT */
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+
     display: flex;
     flex-direction: column;
-    align-items: center;   
+    align-items: center;
 }
 
 .favorite-icon {
-    align-self: flex-end; 
+    align-self: flex-end;
     font-size: 30px;
     position: relative;
     top: -25px;
     right: -25px;
     transition: transform 0.2s ease;
-    
+
 }
 
 .favorite-icon:hover {
-  transform: scale(1.2);
+    transform: scale(1.2);
+    cursor: pointer;
 }
 
 .weather-icon {
@@ -53,5 +64,106 @@
     padding: 15px;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 10px;
-    border: 2px solid rgb(182, 8, 95);
+    border: 2px solid #1C4D8D;
+}
+
+.weather-layout {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weather-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.mobile-only {
+    display: block;
+}
+
+.desktop-only {
+    display: none;
+}
+
+/* ---------------- TABLET ---------------- */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .weather-view {
+        width: 85%;
+        max-width: 500px;
+    }
+
+    .favorite-icon {
+        font-size: 34px;
+        top: -30px;
+        right: -20px;
+    }
+
+    .weather-icon {
+        width: 170px;
+        align-items: center;
+    }
+
+    .temperature {
+        font-size: 3.2em;
+    }
+
+    .location {
+        font-size: 1.6em;
+    }
+
+    .weather-property-data {
+        margin-top: 35px;
+    }
+
+    .favorites-container {
+        margin-top: 25px;
+        border-radius: 10px;
+    }
+}
+
+/* ---------------- DESKTOP ---------------- */
+@media (min-width: 1025px) {
+    .weather-view {
+        padding: 40px;
+    }
+
+    .weather-layout {
+        flex-direction: row;
+        gap: 24px;
+        align-items: flex-start;
+    }
+
+    .weather-main {
+        flex: 1;
+        min-width: 420px;
+    }
+
+    .favorite-icon {
+        top: -20px;
+        right: -10px;
+    }
+
+    .favorites-container {
+        width: 320px;
+        margin: 0 25px;
+        align-self: flex-start;
+        position: sticky;
+        top: 20px;
+    }
+
+    .weather-property-data {
+        justify-content: center;
+    }
+
+    .mobile-only {
+        display: none;
+    }
+
+    .desktop-only {
+        display: block;
+    }
 }

@@ -16,6 +16,13 @@
 }
 
 .favorites-empty {
-  font-size: 14px;
-  color: #777;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 30px 10px;
+}
+
+.favorites-hint {
+  font-size: 0.9em;
+  opacity: 0.8;
+  margin-top: 6px;
 }
