@@ -1,0 +1,17 @@
+.col {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 1em;
+    margin: 0 15px;
+}
+
+.col img {
+    width: 30px;
+    margin-top: 10px;
+}
+
+.col span {
+    display: block;
+    font-size: 0.9em;
+}

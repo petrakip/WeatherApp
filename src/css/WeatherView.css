@@ -1,0 +1,48 @@
+.weather-view {
+    place-self: center;
+    padding: 50px;
+    background-image: linear-gradient(45deg, #540863, #E49BA6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+}
+
+.favorite-icon {
+    align-self: flex-end; 
+    font-size: 30px;
+    position: relative;
+    top: -25px;
+    right: -25px;
+    transition: transform 0.2s ease;
+    
+}
+
+.favorite-icon:hover {
+  transform: scale(1.2);
+}
+
+.weather-icon {
+    width: 150px;
+    margin: 10px 0;
+}
+
+.temperature {
+    color: #ffffff;
+    font-size: 3em;
+    line-height: 1;
+    text-align: center;
+}
+
+.location {
+    color: #ffffff;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.weather-property-data {
+    width: 100%;
+    margin-top: 40px;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+}
