@@ -98,9 +98,9 @@ function SearchBar({ searchFunction }) {
 
                 {open && (
                     <div className="search-dropdown">
-                        {suggestions.map((s) => (
+                        {suggestions.map((s, idx) => (
                             <div
-                                key={`${s.name}-${s.lat}-${s.lon}`}
+                                key={`${s.name}-${s.lat}-${s.lon}-${idx}`}
                                 className="search-item"
                                 onMouseDown={(e) => e.preventDefault()}
                                 onClick={() => choose(s)}
@@ -108,6 +108,7 @@ function SearchBar({ searchFunction }) {
                                 {label(s)}
                             </div>
                         ))}
+
                     </div>
                 )}
             </div>

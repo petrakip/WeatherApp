@@ -1,0 +1,17 @@
+.search-history-item {
+  display: grid;
+  grid-template-columns: 1fr 140px 90px;
+  gap: 12px;
+
+  padding: 10px 10px;
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.95);
+
+  cursor: pointer;
+}
+
+.search-history-item:hover {
+  background: rgba(255,255,255,0.12);
+}

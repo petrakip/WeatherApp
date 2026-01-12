@@ -6,13 +6,15 @@
 .favorites-scroll {
   width: 100%;
   overflow-y: auto;
-  max-height: 320px;
+  max-height: 170px;
   /* Chrome / Edge / Safari */
-  scrollbar-width: none;      /* Firefox */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .favorites-scroll::-webkit-scrollbar {
-  display: none;              /* WebKit */
+  display: none;
+  /* WebKit */
 }
 
 .favorites-title {
@@ -31,4 +33,18 @@
   font-size: 0.9em;
   opacity: 0.8;
   margin-top: 6px;
+}
+
+/* ---------------- TABLET ---------------- */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .favorites-scroll {
+    max-height: 220px;
+  }
+}
+
+/* ---------------- DESKTOP ---------------- */
+@media (min-width: 1025px) {
+  .favorites-scroll {
+    max-height: 320px;
+  }
 }
