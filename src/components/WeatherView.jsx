@@ -8,6 +8,23 @@ import FavoriteView from "./FavoriteView";
 /* ---------------- OFFLINE CACHE HELPERS ---------------- */
 const CACHE_PREFIX = "wx_cache_v1:";
 const LAST_KEY = "wx_last_v1";
+const FAVORITES_KEY = "wx_favorites_v1";
+
+const loadFavorites = () => {
+    try {
+        const raw = localStorage.getItem(FAVORITES_KEY);
+        return raw ? JSON.parse(raw) : [];
+    } catch {
+        return [];
+    }
+};
+
+const saveFavorites = (favorites) => {
+    try {
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+    } catch { }
+};
+
 
 const normalizeKey = (s) => (s || "").trim().toLowerCase();
 
@@ -65,7 +82,8 @@ const applyAppClasses = (theme) => {
 
 const WeatherView = forwardRef(function WeatherView({ onHistoryAdd }, ref) {
     const [weatherData, setWeatherData] = useState(false);
-    const [favorites, setFavorites] = useState([]);
+    const [favorites, setFavorites] = useState(() => loadFavorites());
+
     const [isOnline, setIsOnline] = useState(navigator.onLine);
 
     useEffect(() => {
@@ -224,6 +242,11 @@ const WeatherView = forwardRef(function WeatherView({ onHistoryAdd }, ref) {
     }, []);
 
     const isFavorite = weatherData && favorites.includes(weatherData.location);
+
+    useEffect(() => {
+        saveFavorites(favorites);
+    }, [favorites]);
+
 
     return (
         <div className="weather-view">

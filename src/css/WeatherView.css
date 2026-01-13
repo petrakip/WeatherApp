@@ -89,14 +89,14 @@
     display: none;
 }
 
-.offline-badge{
-  color: white;
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.25);
-  padding: 6px 10px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  font-size: 0.9rem;
+.offline-badge {
+    color: white;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 6px 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
 }
 
 /* ---------------- TABLET ---------------- */
@@ -133,8 +133,11 @@
 /* ---------------- DESKTOP ---------------- */
 @media (min-width: 1025px) {
     .weather-view {
+        min-height: 580px;
         max-height: calc(100vh - 80px);
         margin-bottom: 15px;
+        position: relative;
+        overflow: hidden;
     }
 
     .weather-layout {
