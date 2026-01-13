@@ -44,10 +44,12 @@ const App = () => {
    *
    * Uses functional setState to avoid stale state issues.
    */
+  const HISTORY_LIMIT = 15;
+
   const addHistory = (entry) => {
     setHistory((prev) => {
       const filtered = prev.filter((h) => h.city !== entry.city);
-      return [entry, ...filtered].slice(0, 8);
+      return [entry, ...filtered].slice(0, HISTORY_LIMIT);
     });
   };
 
