@@ -5,11 +5,17 @@ import WeatherTile from "./WeatherTile";
 import "../css/WeatherView.css";
 import FavoriteView from "./FavoriteView";
 
-/* ---------------- OFFLINE CACHE HELPERS ---------------- */
-const CACHE_PREFIX = "wx_cache_v1:";
-const LAST_KEY = "wx_last_v1";
-const FAVORITES_KEY = "wx_favorites_v1";
+/* ---------------- OFFLINE CACHE HELPERS ---------------- 
+These helper functions store and retrieve data from localStorage so the app can:
+   - Remember favorites across page reloads
+   - Remember the last weather shown
+   - Cache weather per-city for offline usage
+*/
+const CACHE_PREFIX = "wx_cache_v1:"; // Prefix for per-city cache keys (versioned)
+const LAST_KEY = "wx_last_v1";  // Key for storing last shown weather payloa
+const FAVORITES_KEY = "wx_favorites_v1"; // Key for storing the favorites list
 
+// Load favorites from localStorage (returns [] if missing or invalid JSON)
 const loadFavorites = () => {
     try {
         const raw = localStorage.getItem(FAVORITES_KEY);
@@ -19,15 +25,17 @@ const loadFavorites = () => {
     }
 };
 
+// Save favorites list to localStorage
 const saveFavorites = (favorites) => {
     try {
         localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
     } catch { }
 };
 
-
+// Normalize a city string to a stable cache key (trim + lowercase)
 const normalizeKey = (s) => (s || "").trim().toLowerCase();
 
+// Save a city-specific weather payload in localStorage with a timestamp
 const saveCityCache = (cityName, payload) => {
     try {
         localStorage.setItem(
@@ -37,6 +45,7 @@ const saveCityCache = (cityName, payload) => {
     } catch { }
 };
 
+// Load a city-specific cached payload from localStorage
 const loadCityCache = (cityName) => {
     try {
         const raw = localStorage.getItem(CACHE_PREFIX + normalizeKey(cityName));
@@ -48,12 +57,14 @@ const loadCityCache = (cityName) => {
     }
 };
 
+// Save the most recently shown weather payload (used for restoring UI on reload)
 const saveLast = (payload) => {
     try {
         localStorage.setItem(LAST_KEY, JSON.stringify({ ts: Date.now(), payload }));
     } catch { }
 };
 
+// Load the most recently shown weather payload
 const loadLast = () => {
     try {
         const raw = localStorage.getItem(LAST_KEY);
@@ -80,12 +91,25 @@ const applyAppClasses = (theme) => {
     if (theme?.effect === "rain") app.classList.add("weather-rain");
 };
 
+/**
+ * WeatherView (forwardRef)
+ * Main container responsible for:
+ * - Searching for a city (by text or by coordinates from autocomplete)
+ * - Fetching weather from OpenWeather
+ * - Caching results for offline use
+ * - Tracking favorites
+ * - Exposing an imperative API to parent (App) via ref: `searchCity(city)`
+ */
 const WeatherView = forwardRef(function WeatherView({ onHistoryAdd }, ref) {
     const [weatherData, setWeatherData] = useState(false);
     const [favorites, setFavorites] = useState(() => loadFavorites());
 
     const [isOnline, setIsOnline] = useState(navigator.onLine);
 
+    /**
+    * Listen for browser online/offline events and update state.
+    * This allows the UI to show an "Offline mode" badge when needed.
+    */
     useEffect(() => {
         const on = () => setIsOnline(true);
         const off = () => setIsOnline(false);
@@ -97,6 +121,10 @@ const WeatherView = forwardRef(function WeatherView({ onHistoryAdd }, ref) {
         };
     }, []);
 
+    /**
+     * Toggle a city in favorites.
+     * If city exists -> remove it, otherwise -> add it.
+     */
     const favorite = (city) => {
         if (!city) return;
 
@@ -107,6 +135,15 @@ const WeatherView = forwardRef(function WeatherView({ onHistoryAdd }, ref) {
         }
     };
 
+    /*
+     * Search handler used by:
+     * - SearchBar (string input or coords object from autocomplete)
+     * - Favorites list (when user selects a favorite city)
+     *
+     * Supports two input shapes:
+     * 1) string: "Athens"
+     * 2) object: { name, lat, lon } from autocomplete suggestions
+     */
     const search = async (input) => {
         const text = typeof input === "string" ? input.trim() : "";
         const coords = typeof input === "object" && input ? input : null;
@@ -116,7 +153,12 @@ const WeatherView = forwardRef(function WeatherView({ onHistoryAdd }, ref) {
             return;
         }
 
-        /* ✅ OFFLINE PATH (before ANY fetch) */
+        /* 
+        *OFFLINE PATH (before ANY fetch) 
+        *If the browser is offline, we attempt to load cached weather data for the city.
+        *If found -> show it immediately.
+        *If not found -> show a warning.
+        */
         const offline = !navigator.onLine;
         if (offline) {
             const cityName = coords?.name || text;
@@ -132,7 +174,12 @@ const WeatherView = forwardRef(function WeatherView({ onHistoryAdd }, ref) {
             return;
         }
 
-        /* ✅ ONLINE PATH */
+        /* ONLINE PATH
+          - Determine lat/lon either from autocomplete coords or by geocoding the text.
+          - Fetch current weather by lat/lon.
+          - Build a simplified payload for the UI.
+          - Update history, theme, and caches.
+       */
         try {
             let lat, lon, displayName;
 
@@ -161,7 +208,7 @@ const WeatherView = forwardRef(function WeatherView({ onHistoryAdd }, ref) {
                 displayName = geoData[0].name;
             }
 
-            // weather by lat/lon
+            // Fetch current weather by lat/lon (metric units)
             const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${import.meta.env.VITE_API_KEY}`;
 
             const response = await fetch(url);
@@ -183,14 +230,14 @@ const WeatherView = forwardRef(function WeatherView({ onHistoryAdd }, ref) {
             });
             onHistoryAdd?.({ city: cityForHistory, date, time });
 
-            // icon/day-night
+            // Determine icon URL and whether it's day/night based on the icon code suffix
             const iconCode = data.weather?.[0]?.icon;
             const isDay = !!iconCode && iconCode.endsWith("d");
             const iconUrl = iconCode
                 ? `https://openweathermap.org/img/wn/${iconCode}@2x.png`
                 : "";
 
-            // ONLY snow/rain effects
+            // Determine visual "effect" class 
             const main = (data.weather?.[0]?.main || "").toLowerCase();
             let effect = null;
             if (main === "snow") effect = "snow";
@@ -204,17 +251,16 @@ const WeatherView = forwardRef(function WeatherView({ onHistoryAdd }, ref) {
                 location: cityForHistory,
                 icon: iconUrl,
 
-                // ✅ saved for offline restore of UI
                 isDay,
                 effect,
             };
 
             setWeatherData(nextWeather);
 
-            // apply theme to app
+            // Apply global CSS classes to the `.app` container based on theme/effect
             applyAppClasses(nextWeather);
 
-            // cache
+            // Cache data for offline mode and for "restore last" behavior
             saveCityCache(cityForHistory, nextWeather);
             saveLast(nextWeather);
         } catch (error) {

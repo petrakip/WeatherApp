@@ -1,23 +1,31 @@
 import { useEffect, useRef, useState } from "react";
 import "../css/SearchBar.css";
 
+// Delay (in ms) before we consider the user "done typing"
 const DEBOUNCE_MS = 300;
+// Max number of location suggestions to request from the API
 const LIMIT = 6;
 
+/**
+ * SearchBar
+ * - Lets the user type a city name
+ * - Shows autocomplete suggestions from OpenWeather Geo API
+ * - Calls `searchFunction` either when selecting a suggestion or clicking the search icon
+ */
 function SearchBar({ searchFunction }) {
     const inputRef = useRef();
     const [raw, setRaw] = useState("");   // ✅ NEW
-    const [q, setQ] = useState("");
+    const [query, setQuery] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [open, setOpen] = useState(false);
 
-    // ✅ Debounce raw -> q
+    // Debounce raw -> query
     useEffect(() => {
-        const t = setTimeout(() => setQ(raw.trim()), DEBOUNCE_MS);
-        return () => clearTimeout(t);
+        const timer = setTimeout(() => setQuery(raw.trim()), DEBOUNCE_MS);
+        return () => clearTimeout(timer);
     }, [raw]);
 
-    // ✅ Listen to typing
+    // Listen to typing
     const onChange = () => {
         const val = inputRef.current?.value ?? "";
         setRaw(val);
@@ -25,7 +33,7 @@ function SearchBar({ searchFunction }) {
 
     // Fetch suggestions
     useEffect(() => {
-        const query = q;
+        const query = query;
         if (!query || query.length < 2) {
             setSuggestions([]);
             setOpen(false);
@@ -67,7 +75,7 @@ function SearchBar({ searchFunction }) {
         return () => {
             cancelled = true;
         };
-    }, [q]); // ✅ stays [q] (debounced)
+    }, [query]); 
 
     const label = (s) =>
         `${s.name}${s.state ? `, ${s.state}` : ""}, ${s.country}`;
@@ -75,7 +83,7 @@ function SearchBar({ searchFunction }) {
     const choose = async (s) => {
         const text = label(s);
         inputRef.current.value = text;
-        setRaw(text); // ✅ NEW: συγχρονίζει raw, αλλιώς θα μείνει το παλιό
+        setRaw(text); // synchronize raw, otherwise the old one will remain
         setOpen(false);
         setSuggestions([]);
         await searchFunction({ name: s.name, lat: s.lat, lon: s.lon });
