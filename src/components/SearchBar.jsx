@@ -14,7 +14,7 @@ const LIMIT = 6;
  */
 function SearchBar({ searchFunction }) {
     const inputRef = useRef();
-    const [raw, setRaw] = useState("");   // ✅ NEW
+    const [raw, setRaw] = useState("");
     const [query, setQuery] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [open, setOpen] = useState(false);
@@ -33,8 +33,8 @@ function SearchBar({ searchFunction }) {
 
     // Fetch suggestions
     useEffect(() => {
-        const query = query;
-        if (!query || query.length < 2) {
+        const q = query;
+        if (!q || q.length < 2) {
             setSuggestions([]);
             setOpen(false);
             return;
@@ -75,7 +75,7 @@ function SearchBar({ searchFunction }) {
         return () => {
             cancelled = true;
         };
-    }, [query]); 
+    }, [query]);
 
     const label = (s) =>
         `${s.name}${s.state ? `, ${s.state}` : ""}, ${s.country}`;

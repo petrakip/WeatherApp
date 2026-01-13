@@ -43,11 +43,10 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  max-height: 190px; /* αν γεμίσει -> scroll */
+  max-height: 190px; 
   overflow-y: auto;
 }
 
-/* ωραίο λεπτό scrollbar */
 .search-history-list {
   scrollbar-width: thin;
   scrollbar-color: rgba(255,255,255,0.35) transparent;

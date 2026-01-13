@@ -20,20 +20,16 @@
   transition: background-image 0.6s ease;
 }
 
-
 .weather-view,
 .search-history-container {
   width: 92%;
   max-width: 520px;
 }
 
-
-/* ☀️ ΜΕΡΑ */
 .app.day-bg {
   background-image: url("./assets/day.jpg");
 }
 
-/* 🌙 ΝΥΧΤΑ */
 .app.night-bg {
   background-image: url("./assets/night.jpg");
 }
@@ -51,7 +47,7 @@
   position: relative;
 }
 
-/* ✅ layer για εφέ (βροχή/χιόνι) */
+/* layer for effet (rain/snow) */
 .app::after {
   content: "";
   position: fixed;
@@ -62,6 +58,7 @@
   transition: opacity 0.4s ease;
 }
 
+/*---------------------------- snow effet ----------------------------*/
 .app.weather-snow::after {
   opacity: 1;
   background-image:
@@ -90,6 +87,7 @@
   opacity: 0.75;
 }
 
+/*---------------------------- rain effet ----------------------------*/
 .app.weather-rain::after {
   content: "";
   position: absolute;
