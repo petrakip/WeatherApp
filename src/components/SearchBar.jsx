@@ -6,23 +6,24 @@ const LIMIT = 6;
 
 function SearchBar({ searchFunction }) {
     const inputRef = useRef();
+    const [raw, setRaw] = useState("");   // ✅ NEW
     const [q, setQ] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [open, setOpen] = useState(false);
 
-    // Debounce input
+    // ✅ Debounce raw -> q
     useEffect(() => {
-        const t = setTimeout(() => setQ(inputRef.current?.value?.trim() || ""), DEBOUNCE_MS);
+        const t = setTimeout(() => setQ(raw.trim()), DEBOUNCE_MS);
         return () => clearTimeout(t);
-    }, []);
+    }, [raw]);
 
-    // Listen to typing (simple)
+    // ✅ Listen to typing
     const onChange = () => {
-        const val = inputRef.current.value;
-        setQ(val.trim());
+        const val = inputRef.current?.value ?? "";
+        setRaw(val);
     };
 
-    // Fetch suggestions (works with Greek too)
+    // Fetch suggestions
     useEffect(() => {
         const query = q;
         if (!query || query.length < 2) {
@@ -66,13 +67,15 @@ function SearchBar({ searchFunction }) {
         return () => {
             cancelled = true;
         };
-    }, [q]);
+    }, [q]); // ✅ stays [q] (debounced)
 
     const label = (s) =>
         `${s.name}${s.state ? `, ${s.state}` : ""}, ${s.country}`;
 
     const choose = async (s) => {
-        inputRef.current.value = label(s);
+        const text = label(s);
+        inputRef.current.value = text;
+        setRaw(text); // ✅ NEW: συγχρονίζει raw, αλλιώς θα μείνει το παλιό
         setOpen(false);
         setSuggestions([]);
         await searchFunction({ name: s.name, lat: s.lat, lon: s.lon });
@@ -108,7 +111,6 @@ function SearchBar({ searchFunction }) {
                                 {label(s)}
                             </div>
                         ))}
-
                     </div>
                 )}
             </div>
