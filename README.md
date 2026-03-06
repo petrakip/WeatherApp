@@ -14,15 +14,15 @@ The project demonstrates practical usage of:
 ## 📷 Application Screenshots
 
 <p align="center">
-  <img src="screenshots/desktop_day.png" width="500" height="280"/>
-  <img src="screenshots/desktop_night.png" width="500" height="280"/>
-  <img src="screenshots/latest_search.png" width="500" height="280" />
+  <img src="screenshots/desktop_day.png" width="500" height="280" style="object-fit:cover;"/>
+  <img src="screenshots/desktop_night.png" width="500" height="280" style="object-fit:cover;"/>
+  <img src="screenshots/latest_search.png" width="500" height="280" style="object-fit:cover;"/>
 </p>
 
 <p align="center">
-  <img src="screenshots/favorites.png" width="300" height="500"/>
-  <img src="screenshots/mobile.png" width="300" height="500"/>
-  <img src="screenshots/tablet.png" width="300" height="500"/>
+  <img src="screenshots/favorites.png" width="300" height="500" style="object-fit:cover;"/>
+  <img src="screenshots/mobile.png" width="300" height="500" style="object-fit:cover;"/>
+  <img src="screenshots/tablet.png" width="300" height="500" style="object-fit:cover;"/>
 </p>
 
 ## ✨ Features
