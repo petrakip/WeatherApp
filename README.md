@@ -19,6 +19,19 @@ The project demonstrates practical usage of:
 - 📡 **Offline Mode** – Previously viewed cities can be displayed even without internet connection.
 - 🌙 **Dynamic Theme** – The UI automatically switches between day and night themes.
 - 🌧 **Weather Effects** – Visual effects based on weather conditions such as rain or snow.
+- 📱 **Responsive Design** – Optimized layout for desktop, tablet, and mobile devices.
+
+## 📱 Responsive Design
+
+The application layout is fully responsive and adapts to different screen sizes.
+
+The interface automatically adjusts between **desktop and mobile layouts**, ensuring an optimal user experience across:
+
+- Desktop screens
+- Tablets
+- Mobile devices
+
+This is achieved through flexible layouts and responsive CSS design.
 
 ## 🛠 Tech Stack
 
