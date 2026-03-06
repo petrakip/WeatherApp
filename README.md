@@ -11,6 +11,23 @@ The project demonstrates practical usage of:
 - localStorage persistence
 - offline-first design patterns
 
+## 📷 Application Screenshots
+
+<p align="center">
+  <img src="screenshots/desktop_day.png" width="45%" />
+  <img src="screenshots/desktop_night.png" width="45%" />
+</p>
+
+<p align="center">
+  <img src="screenshots/latest_search.png" width="45%" />
+  <img src="screenshots/favorites.png" width="45%" />
+</p>
+
+<p align="center">
+  <img src="screenshots/mobile.png" width="30%" />
+  <img src="screenshots/tablet.png" width="30%" />
+</p>
+
 ## ✨ Features
 
 - 🔍 **City Search** – Search for any city and instantly view current weather conditions.
