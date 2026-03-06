@@ -115,6 +115,8 @@ WeatherApp
 │   ├── demo.gif
 │   ├── desktop_day.png
 │   ├── desktop_night.png
+│   ├── favorites.png
+│   ├── latest_search.png
 │   ├── mobile.png
 │   └── tablet.png
 │ 
