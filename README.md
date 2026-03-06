@@ -20,7 +20,7 @@ The project demonstrates practical usage of:
 - 🌙 **Dynamic Theme** – The UI automatically switches between day and night themes.
 - 🌧 **Weather Effects** – Visual effects based on weather conditions such as rain or snow.
 
-  ## 🛠 Tech Stack
+## 🛠 Tech Stack
 
 This project was built using the following technologies:
 
@@ -31,7 +31,7 @@ This project was built using the following technologies:
 - **CSS**
 - **localStorage** – Client-side persistence for caching and favorites
 
-  ## 📦 Installation
+## 📦 Installation
 
 Clone the repository:
 
