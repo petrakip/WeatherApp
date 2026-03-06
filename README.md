@@ -110,7 +110,14 @@ WeatherApp
 │
 ├── public
 │   └── vite.svg
-│
+│ 
+│── screenshots
+│   ├── demo.gif
+│   ├── desktop_day.png
+│   ├── desktop_night.png
+│   ├── mobile.png
+│   └── tablet.png
+│ 
 ├── src
 │   ├── assets
 │   │
