@@ -51,12 +51,14 @@
 }
 
 .weather-property-data {
+    font-size: 1em;
     width: 100%;
     margin-top: 40px;
     color: #ffffff;
     display: flex;
     justify-content: space-between;
 }
+
 
 .favorites-container {
     width: 100%;
@@ -122,6 +124,7 @@
 
     .weather-property-data {
         margin-top: 35px;
+        font-size: 1.2em;
     }
 
     .favorites-container {
@@ -167,6 +170,7 @@
 
     .weather-property-data {
         justify-content: center;
+        font-size: 1.3em;
     }
 
     .mobile-only {

@@ -2,16 +2,48 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    font-size: 1em;
+    font-size: .8em;
     margin: 0 15px;
 }
 
 .col img {
-    width: 30px;
-    margin-top: 10px;
+    width: 25px;
+    margin-top: 5px;
 }
 
 .col span {
     display: block;
-    font-size: 0.9em;
+    font-size: 0.7em;
+}
+
+/* ---------------- TABLET ---------------- */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .col {
+        font-size: 1em;
+    }
+
+    .col img {
+        width: 30px;
+        margin-top: 10px;
+    }
+
+    .col span {
+        font-size: 0.9em;
+    }
+}
+
+/* ---------------- DESKTOP ---------------- */
+@media (min-width: 1025px) {
+    .col {
+        font-size: 1em;
+    }
+
+    .col img {
+        width: 30px;
+        margin-top: 10px;
+    }
+
+    .col span {
+        font-size: 0.9em;
+    }
 }
